@@ -1,7 +1,7 @@
 --------------------------------------------
 Solution to the Cat vs Dog problem on Kattis
-Author: Ahmad Rajeh     
-Last Updated: 12-11-2016
+Author: Ahmad Rajeh
+Last Updated: 17-12-2016
 --------------------------------------------
 ____________
 CONTENT LIST
@@ -72,7 +72,7 @@ EXAMPLE
 
 _________________
 SOLUTION OVERVIEW
-   My solution implements the algorithm we discussed in class:
+   My solution implements the algorithm we discussed in class (Dr. Michael Goldwasser, CS3100 @ SLU):
      1.  Create a graph G where vertices represent voters and edges
          represent conflicts between voters (i.e. we cannot keep
          both voters happy) and have a capacity of infinity
