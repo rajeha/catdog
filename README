@@ -1,0 +1,99 @@
+--------------------------------------------
+Solution to the Cat vs Dog problem on Kattis
+Author: Ahmad Rajeh     
+Last Updated: 12-11-2016
+--------------------------------------------
+____________
+CONTENT LIST
+   voter.h                      voter struct definition
+   voter.cpp            voter struct implementation
+   edge.h                       edge class definition and implementation
+   graph.h                      graph class definition
+   graph.cpp            graph class implementation
+   main.cpp                     driver file
+   kattis.cpp           all of the above dumped into one file (for Kattis judging)
+   Makefile                     makefile for building main
+   README                       this readme file
+   
+_______
+RUNNING
+   $ make
+   $ ./main < input.txt > answers.txt 2> more.txt
+
+_______
+EXAMPLE
+   input.txt:
+     2
+     3 2 6
+     C1 D2
+     C2 D1
+     C2 D1
+     D1 C1
+     D2 C1
+     D2 C3
+     4 3 14
+     C1 D1
+     C1 D1
+     C1 D1
+     C1 D1
+     C2 D2
+     C2 D2
+     C3 D3
+     D1 C4
+     D2 C1
+     D2 C1
+     D3 C2
+     D3 C2
+     D3 C2
+     D3 C2
+        
+   answers.txt:
+     4
+     8
+ 
+   more.txt:
+     Keeping:   C2
+     Keeping:   D2
+     Happy person:      +C2,-D1
+     Happy person:      +C2,-D1
+     Happy person:      +D2,-C1
+     Happy person:      +D2,-C3
+
+     Keeping:   C1
+     Keeping:   D3
+     Happy person:      +C1,-D1
+     Happy person:      +C1,-D1
+     Happy person:      +C1,-D1
+     Happy person:      +C1,-D1
+     Happy person:      +D3,-C2
+     Happy person:      +D3,-C2
+     Happy person:      +D3,-C2
+     Happy person:      +D3,-C2 
+
+_________________
+SOLUTION OVERVIEW
+   My solution implements the algorithm we discussed in class:
+     1.  Create a graph G where vertices represent voters and edges
+         represent conflicts between voters (i.e. we cannot keep
+         both voters happy) and have a capacity of infinity
+     2.  Find a minimum vertex cover mvc(G) – which will serve to minimize
+         unhappy voters – by following these steps:
+           a.  Add a source S vertex and connect it to all catlover
+               vertices with a capacity of 1
+           b.  Add a sink T vertex and connect it to all doglover
+               vertices with a capacity of 1
+           c.  Find the maximum flow from S to T
+           d.  Our graph is bipartite (catlovers and doglovers never
+               conflict within themselves), so the maximum flow will equal 
+               the maximum matching, which will equal mvc(G) (Konig's theorem)
+     3.  Maximum Happy Voters = Total Voters - Minimum Unhappy Voters (mvc(G)) 
+   
+   To identify which voters will be happy, we look at the residual flow network
+   after finding the max flow: catlovers reachable from S and doglovers not reachable
+   from S are happy.
+
+________________
+DESIGN DECISIONS
+   A smart (lazy) design decision that I took was to represent nodes in the graph as
+   integers rather than as voters as I was first going to do. I can do that by indexing 
+   voters. This allows me to maintain a simple graph data structure.
